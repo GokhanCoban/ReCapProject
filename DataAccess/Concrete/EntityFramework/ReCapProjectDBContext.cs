@@ -18,8 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
-
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Car> Cars { get; set; }
