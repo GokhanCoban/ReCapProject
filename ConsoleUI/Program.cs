@@ -23,6 +23,7 @@ namespace ConsoleUI
             // CarAddTest();
             // CarUpdateTest(1);
             // CarDeleteTest(2);
+            //--------------------DTO Test-------------------------------------------------
             // CarDetailDtoTest();
             // CarDetailDtoGetById(2);
             //---------------------BrandManager Tests--------------------------------------

@@ -23,7 +23,7 @@ namespace DataAccess.Concrete.InMemoryDal
                 new Car{CarId=4,BrandId=4,ColorId=1,Description="Şirket Arabası",ModelYear=2007,DailyPrice=50}
             };
         }
-
+        
         public void Add(Car car)
         {
             _cars.Add(car);
