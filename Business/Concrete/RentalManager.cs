@@ -29,16 +29,13 @@ namespace Business.Concrete
                     return new ErrorResult(Messages.TheCarIsAlreadyRented);
                 }
             }
-            
-            
-           
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.TheCarIsRented); 
         }
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new DataResult<List<Rental>>(_rentalDal.GetAll(),true);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
     }
 }

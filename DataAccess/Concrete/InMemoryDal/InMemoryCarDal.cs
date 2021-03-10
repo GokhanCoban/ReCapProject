@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System;
@@ -55,7 +56,7 @@ namespace DataAccess.Concrete.InMemoryDal
             return _cars.FirstOrDefault(c=> c.Id == carId);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             throw new NotImplementedException();
         }
@@ -68,5 +69,7 @@ namespace DataAccess.Concrete.InMemoryDal
             carToUpdate.Description = car.Description;
             carToUpdate.DailyPrice = carToUpdate.DailyPrice;
         }
+
+       
     }
 }

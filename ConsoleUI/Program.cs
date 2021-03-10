@@ -172,7 +172,7 @@ namespace ConsoleUI
         private static void BrandGetByIdTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            Brand br = brandManager.GetById(8);
+            Brand br = brandManager.GetById(8).Data;
             Console.WriteLine("{0,-5}{1,-10}", br.Id, br.BrandName);
         }
 
@@ -180,7 +180,7 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine("{0,-5}{1,-10}", brand.Id, brand.BrandName);
             }
@@ -226,7 +226,7 @@ namespace ConsoleUI
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            foreach (var color in colorManager.GetAll())
+            foreach (var color in colorManager.GetAll().Data)
             {
                 Console.WriteLine("{0,-5}{1,-10}", color.Id, color.ColorName);
             }
@@ -234,7 +234,7 @@ namespace ConsoleUI
         private static void ColorDeleteTest(int colorId)
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Color cl = colorManager.GetAll().SingleOrDefault(c => c.Id == colorId);
+            Color cl = colorManager.GetAll().Data.SingleOrDefault(c => c.Id == colorId);
 
             colorManager.Delete(cl);
 
@@ -243,7 +243,7 @@ namespace ConsoleUI
         private static void ColorUpdateTest(int colorId)
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Color cl = colorManager.GetAll().SingleOrDefault(c => c.Id == colorId);
+            Color cl = colorManager.GetAll().Data.SingleOrDefault(c => c.Id == colorId);
             cl.ColorName = "Kırmızı";
             colorManager.Update(cl);
 
@@ -252,7 +252,7 @@ namespace ConsoleUI
         private static void ColorGetByIdTest(int colorId)
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Color colorEntity = colorManager.GetById(colorId);
+            Color colorEntity = colorManager.GetById(colorId).Data;
             Console.WriteLine(colorEntity.ColorName);
         }
         #endregion
