@@ -17,10 +17,10 @@ namespace DataAccess.Concrete.InMemoryDal
         {
             _cars = new List<Car>
             {
-                new Car{CarId=1,BrandId=1,ColorId=1,Description="Aile Arabası",ModelYear=2015,DailyPrice=200},
-                new Car{CarId=2,BrandId=2,ColorId=2,Description="Spor Araba",ModelYear=2018,DailyPrice=300},
-                new Car{CarId=3,BrandId=3,ColorId=3,Description="Hafif Ticari",ModelYear=2010,DailyPrice=100},
-                new Car{CarId=4,BrandId=4,ColorId=1,Description="Şirket Arabası",ModelYear=2007,DailyPrice=50}
+                new Car{Id=1,BrandId=1,ColorId=1,Description="Aile Arabası",DailyPrice=200},
+                new Car{Id=2,BrandId=2,ColorId=2,Description="Spor Araba",DailyPrice=300},
+                new Car{Id=3,BrandId=3,ColorId=3,Description="Hafif Ticari",DailyPrice=100},
+                new Car{Id=4,BrandId=4,ColorId=1,Description="Şirket Arabası",DailyPrice=50}
             };
         }
         
@@ -31,7 +31,7 @@ namespace DataAccess.Concrete.InMemoryDal
 
         public void Delete(Car car)
         {
-            Car carToDelete = _cars.SingleOrDefault(c => c.CarId == car.CarId);
+            Car carToDelete = _cars.SingleOrDefault(c => c.Id == car.Id);
             _cars.Remove(carToDelete);
         }
 
@@ -52,7 +52,7 @@ namespace DataAccess.Concrete.InMemoryDal
 
         public Car GetById(int carId)
         {
-            return _cars.FirstOrDefault(c=> c.CarId == carId);
+            return _cars.FirstOrDefault(c=> c.Id == carId);
         }
 
         public List<CarDetailDto> GetCarDetails()
@@ -62,11 +62,10 @@ namespace DataAccess.Concrete.InMemoryDal
 
         public void Update(Car car)
         {
-            Car carToUpdate = _cars.SingleOrDefault(c=> c.CarId==car.CarId);
+            Car carToUpdate = _cars.SingleOrDefault(c=> c.Id==car.Id);
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;
             carToUpdate.Description = car.Description;
-            carToUpdate.ModelYear = car.ModelYear;
             carToUpdate.DailyPrice = carToUpdate.DailyPrice;
         }
     }

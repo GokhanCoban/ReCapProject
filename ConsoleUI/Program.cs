@@ -32,62 +32,139 @@ namespace ConsoleUI
             // BrandDeleteTest();
             // BrandGetAllTest();
             // BrandGetByIdTest();
+            //---------------------CustomerManager Tests--------------------------------------
+            // CustomerAddTest();
+            //---------------------UserManager Tests--------------------------------------
+            // UserAddTest();
+            // ModelAddTest();
 
-
+            RentalAddTest();
 
         }
+
+        private static void RentalAddTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            Rental rental = new Rental()
+            {
+                CustomerId = 3,
+                CarId = 2,
+                RentDate = DateTime.Today
+
+            };
+            var result = rentalManager.Add(rental);
+            Console.WriteLine(result.Message);
+        }
+
+        private static void ModelAddTest()
+        {
+            ModelManager modelManager = new ModelManager(new EfModelDal());
+            Random random = new Random();
+            Model model = new Model()
+            {
+                ModelName = "CLK",
+                ModelYear = random.Next(1999, 2022),
+
+
+            };
+
+            modelManager.Add(model);
+        }
+
+        private static void CustomerAddTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            Customer customer = new Customer()
+            {
+                CompanyName = "Yazılımcı",
+                UserId = 1
+
+            };
+
+            customerManager.Add(customer);
+        }
+
+        private static void UserAddTest()
+        {
+            
+            UserManager userManager = new UserManager(new EfUserDal());
+            User user = new User()
+            {
+                FirstName = "Leyla",
+                LastName = "Çoban",
+                Email = "Leylacoban@hotmail.com",
+                Password = "rtrtete5584"
+
+            };
+
+            var result = userManager.Add(user);
+            Console.WriteLine(result.Message);
+        }
+
+
+
+
 
         #region CarTest
         private static void CarDetailDtoGetById(int carId)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            CarDetailDto dto = carManager.GetCarDetails().SingleOrDefault(c => c.CarId == carId);
+            CarDetailDto dto = carManager.GetCarDetails().Data.SingleOrDefault(c => c.CarId == carId);
             Console.WriteLine("{0,-5}{1,-10} {2,-10}{3,-15}", dto.CarId, dto.BrandName, dto.ColorName, dto.DailyPrice);
         }
 
         private static void CarDetailDtoTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success)
             {
-                Console.WriteLine("{0,-5}{1,-10} {2,-10}{3,-15}", car.CarId, car.BrandName, car.ColorName, car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine("{0,-5}{1,-10} {2,-10}{3,-15}", car.CarId, car.BrandName, car.ColorName, car.DailyPrice);
+                }
+               
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+
+            }
+
         }
 
         private static void CarDeleteTest(int carId)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            Car car = carManager.GetAll().SingleOrDefault(c => c.CarId == carId);
+            Car car = carManager.GetAll().Data.SingleOrDefault(c => c.Id == carId);
             carManager.Delete(car);
-            Console.WriteLine("ID'si {0}  Araba Silindi ", car.CarId);
+            Console.WriteLine("ID'si {0}  Araba Silindi ", car.Id);
         }
 
         private static void CarUpdateTest(int carId)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            Car car = carManager.GetAll().SingleOrDefault(c => c.CarId == carId);
+            Car car = carManager.GetAll().Data.SingleOrDefault(c => c.Id == carId);
             car.BrandId = 5;
             car.ColorId = 4;
             car.DailyPrice = 125;
             car.Description = "Öylesine Bir Araba";
             carManager.Update(car);
-            Console.WriteLine("ID'si {0}  Araba Güncellendi ", car.CarId);
+            Console.WriteLine("ID'si {0}  Araba Güncellendi ", car.Id);
         }
         private static void CarAddTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            Random r = new Random();
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-            ColorManager colorManager = new ColorManager(new EfColorDal());
+            Random random = new Random();
             Car car = new Car();
-            car.BrandId = r.Next(brandManager.GetAll().Count() + 1);
-            car.ColorId = r.Next(colorManager.GetAll().Count() + 1);
-            car.DailyPrice = r.Next(100, 500);
+            car.BrandId = 3;
+            car.ColorId = 4;
+            car.ModelId = 1;
+            car.DailyPrice = random.Next(100, 500);
             car.Description = "Binek Araba";
-            car.ModelYear = r.Next(2001, 2021);
             carManager.Add(car);
 
-            Console.WriteLine("Araba Eklendi");
         }
         #endregion
 
@@ -96,7 +173,7 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             Brand br = brandManager.GetById(8);
-            Console.WriteLine("{0,-5}{1,-10}", br.BrandId, br.BrandName);
+            Console.WriteLine("{0,-5}{1,-10}", br.Id, br.BrandName);
         }
 
         private static void BrandGetAllTest()
@@ -105,7 +182,7 @@ namespace ConsoleUI
 
             foreach (var brand in brandManager.GetAll())
             {
-                Console.WriteLine("{0,-5}{1,-10}", brand.BrandId, brand.BrandName);
+                Console.WriteLine("{0,-5}{1,-10}", brand.Id, brand.BrandName);
             }
         }
 
@@ -113,7 +190,7 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             Brand brand = new Brand();
-            brand.BrandId = 7;
+            brand.Id = 7;
             brandManager.Delete(brand);
         }
 
@@ -121,7 +198,7 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             Brand brand = new Brand();
-            brand.BrandId = 7;
+            brand.Id = 7;
             brand.BrandName = "Alfa Romeo";
             brandManager.Update(brand);
         }
@@ -130,7 +207,7 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             Brand brand = new Brand();
-            brand.BrandName = "Alfa Romeo";
+            brand.BrandName = "Toyota";
             brandManager.Add(brand);
         }
         #endregion
@@ -151,26 +228,26 @@ namespace ConsoleUI
 
             foreach (var color in colorManager.GetAll())
             {
-                Console.WriteLine("{0,-5}{1,-10}", color.ColorId, color.ColorName);
+                Console.WriteLine("{0,-5}{1,-10}", color.Id, color.ColorName);
             }
         }
         private static void ColorDeleteTest(int colorId)
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Color cl = colorManager.GetAll().SingleOrDefault(c => c.ColorId == colorId);
+            Color cl = colorManager.GetAll().SingleOrDefault(c => c.Id == colorId);
 
             colorManager.Delete(cl);
 
-            Console.WriteLine("ID'si {0} olan ColorName'i {1} olan satır silindi ", cl.ColorId, cl.ColorName);
+            Console.WriteLine("ID'si {0} olan ColorName'i {1} olan satır silindi ", cl.Id, cl.ColorName);
         }
         private static void ColorUpdateTest(int colorId)
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Color cl = colorManager.GetAll().SingleOrDefault(c => c.ColorId == colorId);
+            Color cl = colorManager.GetAll().SingleOrDefault(c => c.Id == colorId);
             cl.ColorName = "Kırmızı";
             colorManager.Update(cl);
 
-            Console.WriteLine("ID'si {0} olan satırın ColorName değeri {1} olarak Güncellendi ", cl.ColorId, cl.ColorName);
+            Console.WriteLine("ID'si {0} olan satırın ColorName değeri {1} olarak Güncellendi ", cl.Id, cl.ColorName);
         }
         private static void ColorGetByIdTest(int colorId)
         {
