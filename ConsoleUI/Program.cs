@@ -24,7 +24,7 @@ namespace ConsoleUI
             // CarUpdateTest(1);
             // CarDeleteTest(2);
             //--------------------DTO Test-------------------------------------------------
-            // CarDetailDtoTest();
+             CarDetailDtoTest();
             // CarDetailDtoGetById(2);
             //---------------------BrandManager Tests--------------------------------------
             // BrandAddTest();
@@ -38,7 +38,7 @@ namespace ConsoleUI
             // UserAddTest();
             // ModelAddTest();
 
-            RentalAddTest();
+             // RentalAddTest();
 
         }
 
@@ -122,7 +122,7 @@ namespace ConsoleUI
             {
                 foreach (var car in result.Data)
                 {
-                    Console.WriteLine("{0,-5}{1,-10} {2,-10}{3,-15}", car.CarId, car.BrandName, car.ColorName, car.DailyPrice);
+                    Console.WriteLine("{0,-5}{1,-15} {2,-10}{3,-15}{4,-15}{5,-15}", car.CarId, car.BrandName, car.ModelName,car.ColorName,car.ModelYear, car.DailyPrice);
                 }
                
             }

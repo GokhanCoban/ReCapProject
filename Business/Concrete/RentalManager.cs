@@ -18,6 +18,8 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+
+
         public IResult Add(Rental rental)
         {
             var results = _rentalDal.GetAll(x=> x.ReturnDate==null);
@@ -35,7 +37,38 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
+            var result= new  SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
+
+            if (result.Success)
+            {
+                return new SuccessDataResult<List<Rental>>(result.Data);
+            }
+
+            return new ErrorDataResult<List<Rental>>(result.Message);
+        }
+
+        public IDataResult<Rental> GetById(int id)
+        {
+           var result=  _rentalDal.Get(r=> r.Id==id);
+            if (result!=null)
+            {
+                return new SuccessDataResult<Rental>(result);
+            }
+
+            return new ErrorDataResult<Rental>(Messages.TheRentalNotFound);
+         
+        }
+
+        public IResult Update(Rental rental)
+        {
+            if (rental!=null)
+            {
+                _rentalDal.Update(rental);
+
+                return new SuccessResult(Messages.TheCustomerUpdated);
+            }
+
+            return new ErrorResult(Messages.TheCustomerUpdatedError);
         }
     }
 }

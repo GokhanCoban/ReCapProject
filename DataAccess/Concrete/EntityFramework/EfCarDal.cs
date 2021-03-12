@@ -23,12 +23,17 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.BrandId equals brand.Id
                              join color in reCapProjectDBContext.Colors
                              on car.ColorId equals color.Id
+                             join model in reCapProjectDBContext.Models
+                             on car.ModelId equals model.Id
                              select new CarDetailDto
                              {
                                  CarId = car.Id,
-                                 DailyPrice = car.DailyPrice,
                                  ColorName = color.ColorName,
-                                 BrandName = brand.BrandName
+                                 BrandName = brand.BrandName,
+                                 ModelName= model.ModelName,
+                                 ModelYear=model.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 
                              };
                 return new SuccessDataResult<List<CarDetailDto>>(result.ToList());
                            
